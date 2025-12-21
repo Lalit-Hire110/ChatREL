@@ -1,0 +1,52 @@
+{
+  "overall_health": 26.3,
+  "relationship_type": "Friend",
+  "relationship_confidence": 0.4,
+  "relationship_reasoning": "Good engagement (70.2%); Moderate emotional tone; Frequent messaging",
+  "sub_scores": {
+    "warmth": 22.6,
+    "engagement": 70.2,
+    "conflict": 37.3,
+    "stability": 51.3
+  },
+  "metrics": {
+    "mean_sentiment": -0.026437030938267703,
+    "median_sentiment": 0.0,
+    "sd_sentiment": 0.24335016865805675,
+    "percent_positive": 9.0,
+    "percent_negative": 10.0,
+    "avg_toxicity": 0.2258266009092331,
+    "max_toxicity": 0.9994097948074341,
+    "toxicity_spike_count": 20,
+    "emoji_density": 0.12,
+    "emoji_affinity": 0.25,
+    "reciprocity": 0.84,
+    "median_reply_time_sec": 60.0,
+    "percent_replies_under_1h": 89.1891891891892,
+    "msgs_per_day": 10.0,
+    "avg_words": 2.69
+  },
+  "scoring_weights": {
+    "warmth": 0.45,
+    "engagement": 0.3,
+    "conflict": 0.2,
+    "stability": 0.05
+  },
+  "metadata": {
+    "total_messages": 3501,
+    "window_size": 100,
+    "senders": [
+      "User_1",
+      "User_2"
+    ],
+    "date_range": {
+      "start": "2025-06-27T07:57:00",
+      "end": "2025-07-17T18:34:00"
+    },
+    "anonymized": true,
+    "sender_mapping": {
+      "\u2728 Pranjali \ud83d\udc95": "User_1",
+      "Lalit_Hire_\ud83c\udf42\ud83c\udf41": "User_2"
+    }
+  }
+}

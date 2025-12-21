@@ -1,0 +1,18 @@
+/* Minimal custom CSS for ChatREL v4 */
+
+/* Import design system and component styles */
+@import url('css/theme.css');
+@import url('css/report_styles.css');
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25) !important;
+}

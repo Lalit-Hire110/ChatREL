@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatREL v4 - Relationship Analyzer</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/mode_control.css') }}\" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
+        .container {
+            max-width: 850px;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        h1 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            background: #f8f9fa;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #e9ecef;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 0.75rem 2.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .instructions {
+            background: #e7f3ff;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .privacy-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .form-check-input:checked {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <div style="display: flex; align-items: center; gap: 1rem; justify-content: center;">
+                    <img src="{{ url_for('static', filename='img/logo-128.png') }}" alt="ChatREL Logo"
+                        style="width: 48px; height: 48px;">
+                    <div>
+                        <h1>💬 ChatREL v4</h1>
+                        <p class="mb-0">Relationship Health Analyzer for WhatsApp Chats</p>
+                    </div>
+                </div>
+                {% include 'mode_control.html' %}
+            </div>
+            <div class="card-body p-4">
+                {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>❌ Error:</strong> {{ error }}
+                </div>
+                {% endif %}
+
+                <div class="instructions">
+                    <h5>📋 Quick Start:</h5>
+                    <ol class="mb-0">
+                        <li>Export WhatsApp chat: <strong>Chat → ⋮ → More → Export chat → Without media</strong></li>
+                        <li>Upload the <code>.txt</code> file or paste chat text below</li>
+                        <li>Choose privacy setting and click <strong>Analyze</strong></li>
+                    </ol>
+                </div>
+
+                <form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm">
+                    <div class="mb-4">
+                        <label for="file" class="form-label fw-bold">📁 Upload Chat File</label>
+                        <div class="upload-area">
+                            <div class="feature-icon">📤</div>
+                            <input type="file" class="form-control" id="file" name="file" accept=".txt">
+                            <small class="text-muted">Accepts .txt files up to 5MB</small>
+                        </div>
+                    </div>
+
+                    <div class="text-center my-3">
+                        <strong class="text-muted">— OR —</strong>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="chat_text" class="form-label fw-bold">📝 Paste Chat Text</label>
+                        <textarea class="form-control" id="chat_text" name="chat_text" rows="6"
+                            placeholder="25/12/23, 14:30 - Person 1: Hey! How are you? 😊&#10;25/12/23, 14:32 - Person 2: I'm great! Thanks for asking ❤️"></textarea>
+                    </div>
+
+                    <div class="privacy-box">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="anonymize" name="anonymize" checked>
+                            <label class="form-check-label fw-bold" for="anonymize">
+                                🔒 Pseudonymize chat before analysis
+                            </label>
+                            <div class="small text-muted mt-1">
+                                Replaces names, phone numbers, and emails with anonymous tokens before sending to
+                                HuggingFace API.<br>
+                                <strong>Recommended ON</strong> for privacy protection.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            🔍 Analyze Relationship
+                        </button>
+                    </div>
+                </form>
+
+                <div class="mt-4 pt-3 border-top">
+                    <div class="row text-center small text-muted">
+                        <div class="col-md-6">
+                            <strong>🌐 Languages:</strong> English, Hinglish, Romanized Marathi
+                        </div>
+                        <div class="col-md-6">
+                            <strong>🔬 Models:</strong> XLM-RoBERTa for sentiment & toxicity
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 text-center">
+                    <small class="text-muted">
+                        <strong>Privacy Note:</strong> Text is sent to HuggingFace API for ML analysis.
+                        Use pseudonymization for sensitive chats. No permanent storage.
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4 text-white">
+            <small>ChatREL v4.0 MVP - Open Source Relationship Analyzer</small>
+            <br>
+            <small style="opacity: 0.8;">By Lalit Hiray</small>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/ui_ux.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/mode_control.js') }}"></script>
+    <script>
+        // Simple file size validation
+        document.getElementById('file').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            if (file && file.size > maxSize) {
+                alert('File too large! Maximum size is 5MB. Please use a smaller chat export.');
+                e.target.value = '';
+            }
+        });
+    </script>
+</body>
+
+</html>

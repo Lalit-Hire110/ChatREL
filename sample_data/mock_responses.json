@@ -1,0 +1,22 @@
+{
+    "I love you yaar ❤️": {
+        "label": "positive",
+        "score": 0.92
+    },
+    "Good morning! ☀️": {
+        "label": "positive",
+        "score": 0.85
+    },
+    "You're annoying 😡": {
+        "label": "negative",
+        "score": 0.78
+    },
+    "Haha that's funny 😂": {
+        "label": "positive",
+        "score": 0.75
+    },
+    "I'm feeling tired 😴": {
+        "label": "neutral",
+        "score": 0.55
+    }
+}

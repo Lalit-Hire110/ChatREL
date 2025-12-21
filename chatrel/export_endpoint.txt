@@ -1,0 +1,21 @@
+@app.route('/download/<report_id>/json')
+def download_json(report_id):
+    """Download JSON report."""
+    try:
+        report_path = app.config['UPLOAD_FOLDER'] / f"{report_id}_report.json"
+        if not report_path.exists():
+            return "Report not found", 404
+        
+        return send_file(
+            report_path,
+            as_attachment=True,
+            download_name=f"chatrel_{report_id}.json",
+            mimetype='application/json'
+        )
+    except Exception as e:
+        logger.error(f"Download error: {e}")
+        return str(e), 500
+
+
+# Add this import at the top
+from flask import send_file

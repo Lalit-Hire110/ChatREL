@@ -1,0 +1,73 @@
+{
+  "environment": {
+    "redis_lib": "OK",
+    "redis_server": "UNAVAILABLE (Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.)",
+    "celery_lib": "OK"
+  },
+  "smoke_tests": {},
+  "functional_tests": [
+    {
+      "test": "Text Normalization",
+      "expected": "normalized",
+      "actual": "hello world!",
+      "status": "PASS"
+    },
+    {
+      "test": "Cache Set/Get",
+      "expected": "0.9",
+      "actual": "0.9",
+      "status": "PASS"
+    },
+    {
+      "test": "Inference Logic",
+      "expected": "Near 0.0",
+      "actual": "0.00",
+      "status": "PASS"
+    },
+    {
+      "test": "Variance Detection",
+      "expected": "Var>0.35, Stable=0",
+      "actual": "Var=1.00, Stable=0",
+      "status": "PASS"
+    }
+  ],
+  "stress_tests": [
+    {
+      "test": "Inference Latency (500 ops)",
+      "expected": "<15ms",
+      "actual": "3.91 ms",
+      "status": "PASS"
+    }
+  ],
+  "reliability_tests": [
+    {
+      "test": "Redis Connection Failure",
+      "expected": "Handled",
+      "actual": "Handled",
+      "status": "PASS"
+    }
+  ],
+  "privacy_tests": [
+    {
+      "test": "Privacy Mode Storage",
+      "expected": "No raw text",
+      "actual": "No raw text found",
+      "status": "FAIL"
+    },
+    {
+      "test": "PII Masking",
+      "expected": "Contains [PHONE]",
+      "actual": "Call [PHONE]",
+      "status": "PASS"
+    }
+  ],
+  "accuracy_tests": [
+    {
+      "test": "A/B Score Deviation",
+      "expected": "Diff < 0.3",
+      "actual": "Diff=0.51",
+      "status": "WARN"
+    }
+  ],
+  "final_verdict": "NEEDS FIXES"
+}

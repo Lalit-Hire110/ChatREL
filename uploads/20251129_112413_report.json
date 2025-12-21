@@ -1,0 +1,52 @@
+{
+  "overall_health": 40.7,
+  "relationship_type": "Friend",
+  "relationship_confidence": 0.81,
+  "relationship_reasoning": "Good engagement (52.9%); Moderate emotional tone",
+  "sub_scores": {
+    "warmth": 53.6,
+    "engagement": 52.9,
+    "conflict": 4.8,
+    "stability": 34.1
+  },
+  "metrics": {
+    "mean_sentiment": 0.13688137286433985,
+    "median_sentiment": 0.0,
+    "sd_sentiment": 0.32969543855979355,
+    "percent_positive": 33.33333333333333,
+    "percent_negative": 7.8431372549019605,
+    "avg_toxicity": 0.002366340160369873,
+    "max_toxicity": 0.1,
+    "toxicity_spike_count": 0,
+    "emoji_density": 0.058823529411764705,
+    "emoji_affinity": 0.6666666666666666,
+    "reciprocity": 0.9803921568627451,
+    "median_reply_time_sec": 180.0,
+    "percent_replies_under_1h": 77.41935483870968,
+    "msgs_per_day": 1.6451612903225807,
+    "avg_words": 4.784313725490196
+  },
+  "scoring_weights": {
+    "warmth": 0.45,
+    "engagement": 0.3,
+    "conflict": 0.2,
+    "stability": 0.05
+  },
+  "metadata": {
+    "total_messages": 51,
+    "window_size": 51,
+    "senders": [
+      "User_1",
+      "User_2"
+    ],
+    "date_range": {
+      "start": "2025-05-01T07:02:00",
+      "end": "2025-05-31T08:11:00"
+    },
+    "anonymized": true,
+    "sender_mapping": {
+      "Sunita Deshmukh": "User_1",
+      "Karan Malhotra": "User_2"
+    }
+  }
+}

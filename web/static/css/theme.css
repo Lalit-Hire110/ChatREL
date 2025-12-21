@@ -1,0 +1,237 @@
+/**
+ * ChatREL v4 Design System
+ * Modern analytics SaaS aesthetic with violet/gold palette
+ * Font: Inter (Google Fonts)
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    /* === COLORS === */
+    /* Primary Brand */
+    --color-primary: #6C63FF;
+    --color-primary-hover: #5850E6;
+    --color-primary-light: rgba(108, 99, 255, 0.1);
+
+    /* Demo Mode Accent */
+    --color-demo-gold: #FFB84D;
+    --color-demo-gold-hover: #FFA020;
+    --color-demo-gold-light: rgba(255, 184, 77, 0.15);
+
+    /* Neutrals */
+    --color-bg-base: #FAFBFD;
+    --color-bg-card: #FFFFFF;
+    --color-bg-elevated: #FFFFFF;
+    --color-border: rgba(16, 24, 40, 0.06);
+    --color-border-medium: rgba(16, 24, 40, 0.12);
+
+    /* Text */
+    --color-text-primary: #0F172A;
+    --color-text-secondary: #475569;
+    --color-text-tertiary: #94A3B8;
+    --color-text-inverse: #FFFFFF;
+
+    /* Semantic Colors */
+    --color-success: #10B981;
+    --color-success-bg: #ECFDF5;
+    --color-warning: #F59E0B;
+    --color-warning-bg: #FFFBEB;
+    --color-error: #EF4444;
+    --color-error-bg: #FEF2F2;
+    --color-info: #3B82F6;
+    --color-info-bg: #EFF6FF;
+
+    /* === TYPOGRAPHY === */
+    --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', monospace;
+
+    /* Font Sizes */
+    --font-size-xs: 0.75rem;
+    /* 12px */
+    --font-size-sm: 0.875rem;
+    /* 14px */
+    --font-size-base: 1rem;
+    /* 16px */
+    --font-size-lg: 1.125rem;
+    /* 18px */
+    --font-size-xl: 1.25rem;
+    /* 20px */
+    --font-size-2xl: 1.5rem;
+    /* 24px */
+    --font-size-3xl: 1.875rem;
+    /* 30px */
+    --font-size-4xl: 2.25rem;
+    /* 36px */
+
+    /* Font Weights */
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+
+    /* Line Heights */
+    --line-height-tight: 1.25;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.7;
+
+    /* === SPACING === */
+    --space-1: 0.25rem;
+    /* 4px */
+    --space-2: 0.5rem;
+    /* 8px */
+    --space-3: 0.75rem;
+    /* 12px */
+    --space-4: 1rem;
+    /* 16px */
+    --space-5: 1.25rem;
+    /* 20px */
+    --space-6: 1.5rem;
+    /* 24px */
+    --space-8: 2rem;
+    /* 32px */
+    --space-10: 2.5rem;
+    /* 40px */
+    --space-12: 3rem;
+    /* 48px */
+    --space-16: 4rem;
+    /* 64px */
+
+    /* === BORDERS === */
+    --border-radius-sm: 6px;
+    --border-radius-base: 8px;
+    --border-radius-md: 10px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 16px;
+    --border-radius-pill: 9999px;
+
+    --border-width: 1px;
+    --border-width-medium: 2px;
+    --border-width-thick: 3px;
+
+    /* === SHADOWS === */
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+    --shadow-base: 0 2px 6px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.06);
+    --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08), 0 8px 24px rgba(15, 23, 42, 0.1);
+    --shadow-lg: 0 8px 24px rgba(15, 23, 42, 0.1), 0 16px 48px rgba(15, 23, 42, 0.12);
+    --shadow-xl: 0 16px 48px rgba(15, 23, 42, 0.15), 0 24px 60px rgba(15, 23, 42, 0.18);
+
+    /* === Z-INDEX === */
+    --z-base: 1;
+    --z-dropdown: 100;
+    --z-sticky: 200;
+    --z-modal-backdrop: 900;
+    --z-modal: 1000;
+    --z-toast: 1100;
+
+    /* === TRANSITIONS === */
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+    --transition-slow: 350ms ease;
+    --transition-smooth: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === GLOBAL RESETS & BASE STYLES === */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* === UTILITY CLASSES === */
+.text-xs {
+    font-size: var(--font-size-xs);
+}
+
+.text-sm {
+    font-size: var(--font-size-sm);
+}
+
+.text-base {
+    font-size: var(--font-size-base);
+}
+
+.text-lg {
+    font-size: var(--font-size-lg);
+}
+
+.text-xl {
+    font-size: var(--font-size-xl);
+}
+
+.text-2xl {
+    font-size: var(--font-size-2xl);
+}
+
+.text-3xl {
+    font-size: var(--font-size-3xl);
+}
+
+.text-4xl {
+    font-size: var(--font-size-4xl);
+}
+
+.font-light {
+    font-weight: var(--font-weight-light);
+}
+
+.font-normal {
+    font-weight: var(--font-weight-normal);
+}
+
+.font-medium {
+    font-weight: var(--font-weight-medium);
+}
+
+.font-semibold {
+    font-weight: var(--font-weight-semibold);
+}
+
+.font-bold {
+    font-weight: var(--font-weight-bold);
+}
+
+.font-extrabold {
+    font-weight: var(--font-weight-extrabold);
+}
+
+.text-primary {
+    color: var(--color-text-primary);
+}
+
+.text-secondary {
+    color: var(--color-text-secondary);
+}
+
+.text-tertiary {
+    color: var(--color-text-tertiary);
+}
+
+.shadow-sm {
+    box-shadow: var(--shadow-sm);
+}
+
+.shadow {
+    box-shadow: var(--shadow-base);
+}
+
+.shadow-md {
+    box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+    box-shadow: var(--shadow-lg);
+}
+
+.shadow-xl {
+    box-shadow: var(--shadow-xl);
+}

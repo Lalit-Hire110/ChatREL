@@ -1,0 +1,32 @@
+# ChatREL v4 - Minimal Working Dependencies (Python 3.12 Compatible)
+
+# Core
+requests==2.31.0
+pandas==2.2.3
+numpy==2.1.1
+
+python-dotenv==1.0.1
+
+# Web UI
+flask==3.0.2
+werkzeug==3.0.3
+
+# Text & NLP utilities
+emoji==2.10.1
+regex==2024.11.6
+
+# Visualization
+matplotlib==3.9.1
+
+# Testing
+pytest==8.1.1
+pytest-cov==6.0.0
+pytest-mock==3.14.0
+
+# Utilities
+pyyaml==6.0.2
+
+# CSM (Contextual Sentiment Memory) - Optional but recommended
+redis==5.0.1
+celery==5.3.4
+

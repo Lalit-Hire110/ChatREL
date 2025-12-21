@@ -1,0 +1,52 @@
+{
+  "overall_health": 47.8,
+  "relationship_type": "Friend",
+  "relationship_confidence": 0.4,
+  "relationship_reasoning": "Good engagement (52.4%)",
+  "sub_scores": {
+    "warmth": 68.7,
+    "engagement": 52.4,
+    "conflict": 2.7,
+    "stability": 34.6
+  },
+  "metrics": {
+    "mean_sentiment": 0.3065108091675717,
+    "median_sentiment": 0.37108271718025204,
+    "sd_sentiment": 0.32722207502802514,
+    "percent_positive": 58.69565217391305,
+    "percent_negative": 4.3478260869565215,
+    "avg_toxicity": 0.002722358703613281,
+    "max_toxicity": 0.1,
+    "toxicity_spike_count": 0,
+    "emoji_density": 0.3695652173913043,
+    "emoji_affinity": 0.5294117647058824,
+    "reciprocity": 0.9565217391304348,
+    "median_reply_time_sec": 120.0,
+    "percent_replies_under_1h": 88.46153846153845,
+    "msgs_per_day": 1.4838709677419355,
+    "avg_words": 4.1521739130434785
+  },
+  "scoring_weights": {
+    "warmth": 0.45,
+    "engagement": 0.3,
+    "conflict": 0.2,
+    "stability": 0.05
+  },
+  "metadata": {
+    "total_messages": 46,
+    "window_size": 46,
+    "senders": [
+      "User_1",
+      "User_2"
+    ],
+    "date_range": {
+      "start": "2025-05-01T07:46:00",
+      "end": "2025-05-31T22:06:00"
+    },
+    "anonymized": true,
+    "sender_mapping": {
+      "Aarav Mehta": "User_1",
+      "Kavya Kapoor": "User_2"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "overall_health": 49.3,
+  "relationship_type": "Friend",
+  "relationship_confidence": 0.4,
+  "relationship_reasoning": "Good engagement (98.8%); Frequent messaging",
+  "sub_scores": {
+    "warmth": 75.0,
+    "engagement": 98.8,
+    "conflict": 74.8,
+    "stability": 17.6
+  },
+  "metrics": {
+    "mean_sentiment": 0.4151730053623517,
+    "median_sentiment": 0.5182278990745544,
+    "sd_sentiment": 0.4118299190280019,
+    "percent_positive": 72.91666666666666,
+    "percent_negative": 8.333333333333332,
+    "avg_toxicity": 0.9960147105157375,
+    "max_toxicity": 0.9997919201850891,
+    "toxicity_spike_count": 48,
+    "emoji_density": 0.8958333333333334,
+    "emoji_affinity": 0.37209302325581395,
+    "reciprocity": 0.9583333333333334,
+    "median_reply_time_sec": 180.0,
+    "percent_replies_under_1h": 90.47619047619048,
+    "msgs_per_day": 24.0,
+    "avg_words": 7.041666666666667
+  },
+  "scoring_weights": {
+    "warmth": 0.45,
+    "engagement": 0.3,
+    "conflict": 0.2,
+    "stability": 0.05
+  },
+  "metadata": {
+    "total_messages": 48,
+    "window_size": 48,
+    "senders": [
+      "User_1",
+      "User_2"
+    ],
+    "date_range": {
+      "start": "2023-12-25T09:15:00",
+      "end": "2023-12-26T20:10:00"
+    },
+    "anonymized": true,
+    "sender_mapping": {
+      "Rahul": "User_1",
+      "Priya": "User_2"
+    }
+  }
+}

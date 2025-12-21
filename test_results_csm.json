@@ -1,0 +1,65 @@
+{
+  "environment": {
+    "redis_library": "OK",
+    "celery_library": "OK",
+    "config": "OK",
+    "csm_config": {
+      "enabled": true,
+      "live_hf": false,
+      "threshold": 0.7
+    },
+    "database": "OK",
+    "redis_server": "UNAVAILABLE: Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it."
+  },
+  "smoke_tests": {
+    "module_import": "PASS",
+    "cache_init": "PASS",
+    "engine_init": "PASS",
+    "celery": "AVAILABLE",
+    "csm_processor": "PASS",
+    "summary": "5/5"
+  },
+  "functional_tests": [
+    {
+      "test": "Text Normalization",
+      "expected": "Lowercase + whitespace collapse",
+      "actual": "PASS",
+      "status": "PASS"
+    },
+    {
+      "test": "Cache Set/Get",
+      "expected": "Retrieve exact cached result",
+      "actual": "Score: 0.95",
+      "status": "PASS"
+    },
+    {
+      "test": "Token Stats Update (Welford)",
+      "expected": "Mean\u22480.90, Count=3",
+      "actual": "Mean=0.90, Count=3",
+      "status": "PASS"
+    },
+    {
+      "test": "Context Signature (Negation)",
+      "expected": "NEG_good",
+      "actual": "NEG_PREV_not_good",
+      "status": "PASS"
+    },
+    {
+      "test": "Inference Engine (Sentiment)",
+      "expected": "Positive>0, Negative<0",
+      "actual": "Pos=0.00, Neg=0.00",
+      "status": "FAIL"
+    },
+    {
+      "test": "Variance-Aware Stability Flag",
+      "expected": "is_stable=0, variance>0.35",
+      "actual": "is_stable=1, variance=0.097",
+      "status": "FAIL"
+    }
+  ],
+  "stress_tests": {},
+  "reliability_tests": {},
+  "privacy_tests": {},
+  "accuracy_tests": {},
+  "recommendations": []
+}

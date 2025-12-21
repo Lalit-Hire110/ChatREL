@@ -1,0 +1,51 @@
+============================================================
+ChatREL v4 - Full Pipeline Integration Test
+============================================================
+
+✓ Using chat file: sample_data\sample_chat.txt
+
+--- Running Full Analysis Pipeline ---
+
+✓ Parsed 48 messages
+  Valid text messages: 48
+  Avg sentiment: 0.415
+  Avg toxicity: 0.004
+
+Key metrics:
+  Mean sentiment: 0.415
+  Positive messages: 72.9%
+  Negative messages: 8.3%
+  Avg toxicity: 0.004
+  Reciprocity: 0.958
+  Emoji affinity: 0.372
+
+Sub-scores (0-1):
+  warmth_score: 0.750
+  conflict_score: 0.052
+  engagement_score: 0.988
+  stability_score: 0.176
+
+============================================================
+RELATIONSHIP ANALYSIS SUMMARY
+============================================================
+
+🎯 Overall Health: 63.2/100
+💑 Relationship Type: Friend
+📊 Confidence: 40%
+💭 Reasoning: Good engagement (98.8%); Frequent messaging
+
+📈 Sub-Scores:
+  warmth      : ███████░░░ 75.0/100
+  engagement  : █████████░ 98.8/100
+  conflict    : ░░░░░░░░░░ 5.2/100
+  stability   : █░░░░░░░░░ 17.6/100
+
+📊 Scoring Weights:
+  warmth: 0.45
+  engagement: 0.30
+  conflict: 0.20
+  stability: 0.05
+
+============================================================
+✅ Full pipeline test completed successfully!
+============================================================

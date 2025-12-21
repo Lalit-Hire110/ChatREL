@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatREL - Relationship Analysis Report</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container"
+        style="max-width: 1400px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);">
+
+        <!-- Header with Logo, Mode Dropdown, Demo Badge -->
+        <div class="report-header">
+            <div class="report-header-left">
+                <img src="{{ url_for('static', filename='img/logo-128.png') }}" alt="ChatREL Logo" class="report-logo">
+                <h1 class="report-title">💬 ChatREL v4</h1>
+            </div>
+
+            <div class="report-header-center">
+                <p class="report-relationship-type">{{ report.summary.relationship_type|title }}</p>
+                <p class="report-confidence">{{ (report.summary.relationship_confidence * 100)|int }}% confidence · {{
+                    report.mode|replace("_", " ")|title }} Mode</p>
+            </div>
+
+            {% include 'partials/header_mode.html' %}
+        </div>
+
+        <div class="content" style="padding: 40px;">
+            {% if report.summary.total_messages < 50 %} <div class="warning-banner"
+                style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; color: #856404;">
+                <strong>⚠️ Limited Data:</strong> This chat has fewer than 50 messages. Results may be less reliable.
+        </div>
+        {% endif %}
+
+        <!-- KPI Summary Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <h3 class="kpi-label">Total Messages</h3>
+                <div class="kpi-value" data-animate-count="{{ report.summary.total_messages }}">0</div>
+                <div class="kpi-delta">Across conversation</div>
+            </div>
+            <div class="kpi-card">
+                <h3 class="kpi-label">Days Active</h3>
+                <div class="kpi-value" data-animate-count="{{ report.summary.days_active }}">0</div>
+                <div class="kpi-delta">Timeline span</div>
+            </div>
+            <div class="kpi-card">
+                <h3 class="kpi-label">Messages/Day</h3>
+                <div class="kpi-value" data-animate-count="{{ report.summary.messages_per_day }}">0</div>
+                <div class="kpi-delta">Average frequency</div>
+            </div>
+            <div class="kpi-card">
+                <h3 class="kpi-label">Dominant Sender</h3>
+                <div class="kpi-value" style="font-size: 1.5em;">{{ report.summary.dominant_sender or "Balanced" }}
+                </div>
+                <div class="kpi-delta">Message volume leader</div>
+            </div>
+        </div>
+
+        <!-- Score Cards -->
+        <div class="score-grid">
+            <div class="score-card">
+                <h3 class="score-card-title">Overall Health</h3>
+                <div class="score-card-value"
+                    style="color: {% if report.scores.overall_health.normalized >= 70 %}#10b981{% elif report.scores.overall_health.normalized >= 40 %}#f59e0b{% else %}#ef4444{% endif %}">
+                    {{ report.scores.overall_health.normalized|int }}
+                </div>
+                <div class="score-card-note">
+                    {% if report.scores.overall_health.normalized >= 70 %}Excellent
+                    {% elif report.scores.overall_health.normalized >= 40 %}Moderate
+                    {% else %}Needs Attention{% endif %}
+                </div>
+            </div>
+
+            <div class="score-card">
+                <h3 class="score-card-title">Engagement</h3>
+                <div class="score-card-value" style="color: #3b82f6;">{{ report.scores.engagement.normalized|int }}
+                </div>
+                <div class="score-card-note">Activity & Balance</div>
+            </div>
+
+            <div class="score-card">
+                <h3 class="score-card-title">Warmth</h3>
+                <div class="score-card-value" style="color: #ec4899;">{{ report.scores.warmth.normalized|int }}</div>
+                <div class="score-card-note">Emotional Positivity</div>
+            </div>
+
+            <div class="score-card">
+                <h3 class="score-card-title">Conflict</h3>
+                <div class="score-card-value" style="color: #ef4444;">{{ report.scores.conflict.normalized|int }}</div>
+                <div class="score-card-note">Lower is Better</div>
+            </div>
+
+            <div class="score-card">
+                <h3 class="score-card-title">Stability</h3>
+                <div class="score-card-value" style="color: #8b5cf6;">{{ report.scores.stability.normalized|int }}</div>
+                <div class="score-card-note">Consistency</div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-section">
+            <h2 class="chart-section-title">📈 Visualizations</h2>
+
+            <div class="chart-grid">
+                <div class="chart-card" id="chart-messages-over-time-container" data-chart-ready="false">
+                    <h3 class="chart-card-title">Messages Over Time</h3>
+                    <canvas id="chart-messages-over-time"></canvas>
+                </div>
+
+                <div class="chart-card" id="chart-messages-by-sender-container" data-chart-ready="false">
+                    <h3 class="chart-card-title">Messages by Sender</h3>
+                    <canvas id="chart-messages-by-sender"></canvas>
+                </div>
+
+                <div class="chart-card" id="chart-words-by-sender-container" data-chart-ready="false">
+                    <h3 class="chart-card-title">Words by Sender</h3>
+                    <canvas id="chart-words-by-sender"></canvas>
+                </div>
+
+                <div class="chart-card" id="chart-response-time-container" data-chart-ready="false">
+                    <h3 class="chart-card-title">Response Time by Sender</h3>
+                    <canvas id="chart-response-time"></canvas>
+                </div>
+
+                <div class="chart-card" id="chart-emoji-by-sender-container" data-chart-ready="false">
+                    <h3 class="chart-card-title">Emojis by Sender</h3>
+                    <canvas id="chart-emoji-by-sender"></canvas>
+                </div>
+
+                <div class="chart-card" id="chart-emoji-categories-container" data-chart-ready="false">
+                    <h3 class="chart-card-title">Emoji Categories</h3>
+                    <canvas id="chart-emoji-categories"></canvas>
+                </div>
+
+                {% if report.charts.sentiment_over_time %}
+                <div class="chart-card" id="chart-sentiment-over-time-container" data-chart-ready="false">
+                    <h3 class="chart-card-title">Sentiment Over Time</h3>
+                    <canvas id="chart-sentiment-over-time"></canvas>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Evidence Section -->
+        <div class="evidence-section"
+            style="background: #f8f9fa; padding: 30px; border-radius: 12px; margin-top: 40px;">
+            <h2 style="font-size: 1.5em; margin-bottom: 16px; color: #333;">🔍 Key Insights</h2>
+            <ul class="evidence-list" style="list-style: none;">
+                {% for evidence in report.type_prediction.evidence %}
+                <li style="padding: 12px 0; border-bottom: 1px solid #e0e0e0; font-size: 1.05em; color: #555;">
+                    <span style="color: #667eea; font-weight: bold; margin-right: 8px;">▸</span>{{ evidence }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Natural Language Insights -->
+        {% if report.insights %}
+        <div class="insights-section" style="margin-top: 40px;">
+            <h2
+                style="font-size: 1.8em; margin-bottom: 20px; color: #333; border-bottom: 3px solid #667eea; padding-bottom: 10px;">
+                💬 What This All Means</h2>
+
+            <!-- Summary -->
+            <div
+                style="background: #f8f9fa; padding: 24px; border-radius: 12px; margin-bottom: 24px; border-left: 4px solid #667eea;">
+                <p style="font-size: 1.1em; line-height: 1.7; color: #444; margin: 0;">
+                    {{ report.insights.summary }}
+                </p>
+            </div>
+
+            <!-- Strengths -->
+            {% if report.insights.strengths %}
+            <div style="margin-bottom: 32px;">
+                <h3 style="font-size: 1.3em; color: #10b981; margin-bottom: 12px; display: flex; align-items: center;">
+                    <span style="margin-right: 8px;">✨</span> Strengths
+                </h3>
+                <ul style="list-style: none; padding: 0;">
+                    {% for strength in report.insights.strengths %}
+                    <li
+                        style="padding: 12px 16px; background: #ecfdf5; border-left: 3px solid #10b981; margin-bottom: 8px; border-radius: 6px; color: #047857;">
+                        {{ strength }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <!-- Risks -->
+            {% if report.insights.risks %}
+            <div style="margin-bottom: 32px;">
+                <h3 style="font-size: 1.3em; color: #f59e0b; margin-bottom: 12px; display: flex; align-items: center;">
+                    <span style="margin-right: 8px;">⚠️</span> Things to Notice
+                </h3>
+                <ul style="list-style: none; padding: 0;">
+                    {% for risk in report.insights.risks %}
+                    <li
+                        style="padding: 12px 16px; background: #fffbeb; border-left: 3px solid #f59e0b; margin-bottom: 8px; border-radius: 6px; color: #92400e;">
+                        {{ risk }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <!-- Suggestions -->
+            {% if report.insights.suggestions %}
+            <div style="margin-bottom: 32px;">
+                <h3 style="font-size: 1.3em; color: #8b5cf6; margin-bottom: 12px; display: flex; align-items: center;">
+                    <span style="margin-right: 8px;">💡</span> Gentle Nudges
+                </h3>
+                <ul style="list-style: none; padding: 0;">
+                    {% for suggestion in report.insights.suggestions %}
+                    <li
+                        style="padding: 12px 16px; background: #f5f3ff; border-left: 3px solid #8b5cf6; margin-bottom: 8px; border-radius: 6px; color: #5b21b6;">
+                        {{ suggestion }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Interactive Q&A -->
+        <div id="query-chat-section"
+            style="margin-top: 50px; background: white; border: 2px solid #667eea; border-radius: 12px; overflow: hidden;">
+            <div
+                style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 24px;">
+                <h2 style="margin: 0; font-size: 1.4em;">💬 Ask Questions</h2>
+                <p style="margin: 4px 0 0; font-size: 0.9em; opacity: 0.9;">Try: "What is
+                    engagement?" or "Who texts more?"</p>
+            </div>
+
+            <div id="query-messages" style="padding: 20px; max-height: 400px; overflow-y: auto; background: #f8f9fa;">
+                <!-- Messages appear here -->
+            </div>
+
+            <div style="padding: 16px; background: white; border-top: 1px solid #e0e0e0; display: flex; gap: 12px;">
+                <input type="text" id="query-input" placeholder="Type your question..."
+                    style="flex: 1; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; outline: none;"
+                    onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e0e0e0'" />
+                <button id="query-send"
+                    style="padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: transform 0.2s;"
+                    onmouseover="this.style.transform='scale(1.05)'"
+                    onmouseout="this.style.transform='scale(1)'">Send</button>
+            </div>
+        </div>
+
+        <style>
+            .query-message {
+                margin-bottom: 16px;
+                display: flex;
+            }
+
+            .query-message-user {
+                justify-content: flex-end;
+            }
+
+            .query-message-assistant {
+                justify-content: flex-start;
+            }
+
+            .query-bubble {
+                max-width: 75%;
+                padding: 12px 16px;
+                border-radius: 12px;
+                font-size: 0.95em;
+                line-height: 1.5;
+                word-wrap: break-word;
+            }
+
+            .query-bubble-user {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border-bottom-right-radius: 4px;
+            }
+
+            .query-bubble-assistant {
+                background: white;
+                color: #333;
+                border: 1px solid #e0e0e0;
+                border-bottom-left-radius: 4px;
+            }
+
+            .query-provenance {
+                margin-top: 8px;
+                font-size: 0.85em;
+            }
+
+            .query-provenance-toggle {
+                background: #f0f0f0;
+                border: 1px solid #ddd;
+                padding: 4px 12px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 0.85em;
+            }
+
+            .query-provenance-toggle:hover {
+                background: #e0e0e0;
+            }
+
+            .query-provenance-list {
+                margin-top: 8px;
+                padding: 8px;
+                background: #f8f9fa;
+                border-radius: 6px;
+                border-left: 3px solid #667eea;
+            }
+
+            .query-provenance-list.hidden {
+                display: none;
+            }
+
+            .query-provenance-item {
+                padding: 4px 0;
+                font-family: monospace;
+                font-size: 0.9em;
+                color: #555;
+            }
+
+            .query-loading {
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #667eea;
+                margin: 0 2px;
+                animation: loading-bounce 1.4s infinite ease-in-out both;
+            }
+
+            @keyframes loading-bounce {
+
+                0%,
+                80%,
+                100% {
+                    transform: scale(0);
+                }
+
+                40% {
+                    transform: scale(1);
+                }
+            }
+        </style>
+    </div>
+    </div>
+
+    <!-- Embed report data (CRITICAL: preserve for JS) -->
+    <script id="report-data" type="application/json">
+        {{ report|tojson }}
+    </script>
+
+    <!-- Load JavaScript -->
+    <script src="{{ url_for('static', filename='js/ui_ux.js') }}"></script>
+    <script src="{{ url_for('static', filename='report.js') }}"></script>
+    <script src="{{ url_for('static', filename='report_chat.js') }}"></script>
+</body>
+
+</html>
