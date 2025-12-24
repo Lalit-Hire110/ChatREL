@@ -7,7 +7,7 @@ This repository contains the ChatREL v4 codebase, including data pipelines, mode
 > ⚠️ **Security note:**  
 > Do **NOT** commit secrets (API keys, tokens, `.env`) to GitHub.  
 > Use environment variables or a local `.env` file (added to `.gitignore`).
-
+> HuggingFace API key from this code base is "expiered"
 ---
 
 ## Table of Contents
